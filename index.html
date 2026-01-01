@@ -3,682 +3,344 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Gagan's WebTech</title>
+  <title>Gagan's WebTech | Premium Learning</title>
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Bootstrap (for convenient utilities) -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <style>
-    :root{
-      --bg: #0f1724;
-      --panel: rgba(255,255,255,0.04);
-      --muted: rgba(255,255,255,0.6);
-      --accent: linear-gradient(90deg,#7c3aed,#06b6d4);
-      --glass: rgba(255,255,255,0.03);
-      --glass-2: rgba(255,255,255,0.02);
-      --card-grad: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      --radius: 14px;
-      --glass-border: rgba(255,255,255,0.06);
-      --shadow: 0 8px 30px rgba(2,6,23,0.6);
-      color-scheme: dark;
+    :root {
+      --bg: #05080f;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --sidebar-bg: rgba(13, 17, 23, 0.7);
+      --accent: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.08);
+      --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+      transition: all 0.3s ease;
     }
 
-    /* Light theme (switchable) */
-    :root.light{
-      --bg: #f7fbff;
-      --panel: rgba(0,0,0,0.03);
-      --muted: #374151;
-      --glass: rgba(0,0,0,0.02);
-      --glass-2: rgba(0,0,0,0.01);
-      --card-grad: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.01));
-      --glass-border: rgba(0,0,0,0.06);
-      --shadow: 0 8px 30px rgba(2,6,23,0.06);
-      color-scheme: light;
+    .light {
+      --bg: #f1f5f9;
+      --card-bg: rgba(255, 255, 255, 0.8);
+      --sidebar-bg: rgba(255, 255, 255, 0.9);
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border: rgba(0, 0, 0, 0.05);
+      --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
     }
 
-    html,body{
-      height:100%;
-      margin:0;
-      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: radial-gradient(1200px 600px at 10% 10%, rgba(124,58,237,0.08), transparent),
-                  radial-gradient(900px 400px at 90% 90%, rgba(6,182,212,0.06), transparent),
-                  var(--bg);
-      color: #e6eef8;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      margin: 0;
+      overflow-x: hidden;
+      /* Animated Mesh Gradient Background */
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(124, 58, 237, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.1) 0px, transparent 50%);
     }
 
-    /* Layout */
-    .app {
-      display: grid;
-      grid-template-columns: 260px 1fr;
-      gap: 24px;
-      min-height:100vh;
-      padding: 28px;
-    }
-
-    /* Collapsed layout on small screens */
-    @media (max-width: 992px){
-      .app {
-        grid-template-columns: 1fr;
-        padding: 18px;
-      }
-    }
-
-    /* Sidebar */
-    .sidebar {
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius: 16px;
-      padding: 18px;
-      height: calc(100vh - 56px);
-      position: sticky;
-      top: 28px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(8px) saturate(120%);
-      overflow-y: auto;
-    }
-
-    .brand {
-      display:flex;
-      gap:12px;
-      align-items:center;
-      margin-bottom:14px;
-    }
-
-    .brand .logo {
-      width:44px;
-      height:44px;
-      border-radius:10px;
-      background: linear-gradient(135deg,#FF3CAC,#784BA0);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:800;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.35), inset 0 -6px 18px rgba(255,255,255,0.02);
-      color:white;
-      font-size:18px;
-    }
-
-    .brand .title {
-      font-weight:700;
-      font-size:15px;
-      color: var(--muted);
-    }
-
-    .nav-item {
-      display:flex;
-      gap:10px;
-      align-items:center;
-      padding:10px;
-      border-radius: 10px;
-      color:var(--muted);
-      cursor:pointer;
-      margin-bottom:6px;
-      transition: all .18s ease;
-    }
-
-    .nav-item:hover {
-      transform: translateY(-3px);
-      background: linear-gradient(90deg, rgba(124,58,237,0.06), rgba(6,182,212,0.04));
-      color: #fff;
-    }
-
-    .nav-item .dot {
-      width:8px;height:8px;border-radius:50%;background:linear-gradient(90deg,#7c3aed,#06b6d4);
-      box-shadow: 0 6px 18px rgba(6,182,212,0.12);
-    }
-
-    /* Main area */
-    .main {
+    .app-container {
+      display: flex;
+      padding: 20px;
+      gap: 25px;
       min-height: 100vh;
     }
 
-    .topbar {
-      display:flex;
-      gap:12px;
-      align-items:center;
-      justify-content: space-between;
-      margin-bottom:20px;
+    /* --- SIDEBAR REDESIGN --- */
+    .sidebar {
+      width: 280px;
+      background: var(--sidebar-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 30px 20px;
+      position: sticky;
+      top: 20px;
+      height: calc(100vh - 40px);
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--glass-shadow);
+      z-index: 100;
     }
 
-    .search {
-      flex:1;
-      display:flex;
-      gap:12px;
-      align-items:center;
-      background: var(--panel);
-      padding:8px;
-      border-radius:12px;
-      border:1px solid var(--glass-border);
-      max-width:900px;
-    }
-
-    .search input{
-      background:transparent;
-      border:0;
-      outline:0;
-      color:inherit;
-      font-size:15px;
-      flex:1;
-    }
-
-    .top-actions{
-      display:flex;
-      align-items:center;
-      gap:10px;
-    }
-
-    .btn-ghost{
-      background:transparent;
-      border:1px solid var(--glass-border);
-      padding:8px 12px;
-      border-radius:10px;
-      color:var(--muted);
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      cursor:pointer;
-      transition: all .15s ease;
-    }
-    .btn-ghost:hover{
-      transform: translateY(-4px);
-      color:#fff;
-      border-color: rgba(255,255,255,0.14);
-    }
-
-    /* Grid of videos */
-    .video-grid {
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    @media (max-width: 1200px){
-      .video-grid { grid-template-columns: repeat(2,1fr); }
-    }
-    @media (max-width: 768px){
-      .video-grid { grid-template-columns: 1fr; }
-      .sidebar { display:none; } /* hide sidebar on small */
-    }
-
-    .card-video {
+    .brand-logo {
+      width: 48px;
+      height: 48px;
+      background: var(--accent);
       border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 22px;
+      color: white;
+      box-shadow: 0 0 20px rgba(124, 58, 237, 0.4);
+    }
+
+    .nav-link-custom {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      margin: 4px 0;
+      border-radius: 12px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.2s;
+    }
+
+    .nav-link-custom:hover, .nav-link-custom.active {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+      transform: translateX(5px);
+    }
+
+    .nav-link-custom::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      margin-right: 15px;
+      opacity: 0;
+    }
+
+    .nav-link-custom:hover::before { opacity: 1; }
+
+    /* --- MAIN CONTENT --- */
+    .main-content {
+      flex: 1;
+    }
+
+    .header-area {
+      margin-bottom: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .search-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 14px 20px 14px 50px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      color: var(--text-main);
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .search-input:focus {
+      border-color: #7c3aed;
+      box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+
+    /* --- VIDEO CARDS --- */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 25px;
+    }
+
+    .video-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
       overflow: hidden;
-      background: var(--card-grad);
-      border: 1px solid var(--glass-border);
-      transition: transform .25s ease, box-shadow .25s ease;
-      box-shadow: 0 6px 20px rgba(2,6,23,0.4);
-      display:flex;
-      flex-direction:column;
-      height:100%;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
     }
 
-    .card-video:hover{
-      transform: translateY(-6px);
-      box-shadow: 0 14px 40px rgba(2,6,23,0.5);
+    .video-card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(124, 58, 237, 0.4);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
     }
 
-    .card-body {
-      padding:14px;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
+    .video-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.05) 0%, transparent 50%);
+      pointer-events: none;
     }
 
-    .video-meta{
-      display:flex;
-      align-items:flex-start;
-      gap:12px;
+    .iframe-container {
+      aspect-ratio: 16/9;
+      background: #000;
     }
 
-    .video-meta .thumb {
-      width:72px;
-      height:48px;
-      background:linear-gradient(90deg,#7c3aed,#06b6d4);
-      border-radius:8px;
-      flex-shrink:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:#fff;
-      font-weight:700;
-      font-size:12px;
-      opacity:0.95;
+    .card-content {
+      padding: 20px;
     }
 
-    .video-title{
-      font-weight:700;
-      font-size:14px;
-      color: #ffffff;
-      line-height:1.15;
+    .badge-tech {
+      background: var(--accent);
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      display: inline-block;
     }
 
-    .video-desc {
-      font-size:13px;
-      color: var(--muted);
-      margin-top:4px;
+    .video-title-text {
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 8px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
-    /* Responsive iframe container */
-    .iframe-wrap { position:relative; width:100%; padding-bottom:56.25%; overflow:hidden; }
-    .iframe-wrap iframe{
-      position:absolute;
-      width:100%;
-      height:100%;
-      left:0; top:0;
-      border:0;
+    .btn-watch {
+      width: 100%;
+      padding: 12px;
+      background: var(--accent);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      margin-top: 15px;
+      transition: 0.3s;
     }
 
-    /* Footer note */
-    .page-head {
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      margin-bottom:14px;
-      flex-wrap:wrap;
+    .btn-watch:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 10px 20px rgba(124, 58, 237, 0.3);
+      color: white;
     }
 
-    h1.app-title {
-      margin:0;
-      font-weight:800;
-      letter-spacing: -0.6px;
-      font-size:20px;
-      color: #e6eef8;
+    .theme-toggle {
+      width: 45px;
+      height: 45px;
+      border-radius: 12px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      color: var(--text-main);
     }
 
-    p.app-sub {
-      margin:0;
-      color:var(--muted);
-      font-size:14px;
+    @media (max-width: 992px) {
+      .sidebar { display: none; }
+      .app-container { padding: 15px; }
     }
-
-    /* Toggle */
-    .toggle {
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      cursor:pointer;
-      user-select:none;
-      padding:6px 8px;
-      border-radius:999px;
-      border:1px solid var(--glass-border);
-      background:var(--panel);
+    .text-muted {
+      color: var(--text-muted) !important;
     }
-
-    .dot-toggle {
-      width:36px;height:20px;background:transparent;border-radius:999px;position:relative;
-    }
-    .dot-toggle .knob {
-      position:absolute; top:2px; left:2px; width:16px;height:16px;border-radius:50%;
-      background: linear-gradient(90deg,#fff,#f0f0f0);
-      box-shadow: 0 6px 14px rgba(2,6,23,0.5);
-      transition: all .22s ease;
-    }
-    .dot-toggle.active { background: linear-gradient(90deg,#7c3aed,#06b6d4); }
-    .dot-toggle.active .knob { transform: translateX(16px); box-shadow: 0 8px 22px rgba(6,182,212,0.15); }
-
-    /* Buttons full width in small */
-    .w-100-sm { width: auto; }
-    @media (max-width:576px){ .w-100-sm{ width:100%; } }
-
-    /* subtle animation for headings */
-    .glow-title {
-      background: linear-gradient(90deg,#7c3aed 0%, #06b6d4 50%, #60a5fa 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      font-weight:800;
-    }
-
-    /* ensure links/buttons keep original wording / style */
-    a.btn-original {
-      display:inline-block;
-      padding:8px 10px;
-      border-radius:10px;
-      background: linear-gradient(90deg,#06b6d4,#7c3aed);
-      color:white;
-      text-decoration:none;
-      font-weight:600;
-      text-align:center;
-      transition: transform .15s ease;
-    }
-    a.btn-original:hover { transform: translateY(-3px); }
-
-    /* small scrollbar style for sidebar */
-    .sidebar::-webkit-scrollbar{ width:8px; }
-    .sidebar::-webkit-scrollbar-thumb{ background: rgba(255,255,255,0.04); border-radius:8px; }
-    .sidebar::-webkit-scrollbar-track{ background: transparent; }
+    
   </style>
 </head>
 <body>
 
-  <div id="root" class="app">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar" aria-label="Sidebar">
-      <div class="brand">
-        <div class="logo">G</div>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="d-flex align-items-center gap-3 mb-5">
+        <div class="brand-logo">G</div>
         <div>
-          <div class="title">GAGAN YOUTUBE CLONE 😎</div>
-          <div style="font-size:12px;color:var(--muted);margin-top:4px;">BASIC LEARNING VIDEOS</div>
+          <h6 class="m-0 fw-bold">WEBTECH</h6>
+          <small class="text-muted">v2.0 Premium</small>
         </div>
       </div>
 
-      <div style="margin-top:10px;">
-        <div class="nav-item"><div class="dot"></div><div>Home</div></div>
-        <div class="nav-item"><div class="dot"></div><div>HTML</div></div>
-        <div class="nav-item"><div class="dot"></div><div>CSS</div></div>
-        <div class="nav-item"><div class="dot"></div><div>JavaScript</div></div>
-        <div class="nav-item"><div class="dot"></div><div>Bootstrap</div></div>
-        <div class="nav-item"><div class="dot"></div><div>jQuery</div></div>
-        <div class="nav-item"><div class="dot"></div><div>Git & GitHub</div></div>
-        <div class="nav-item"><div class="dot"></div><div>Power-BI</div></div>
-        <div class="nav-item"><div class="dot"></div><div>Redhat Linux</div></div>
-      </div>
+      <nav class="flex-grow-1" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        <a href="#" class="nav-link-custom active"><b>ROADMAP</b></a>
+        <a href="#" class="nav-link-custom">HTML Course</a>
+        <a href="#" class="nav-link-custom">CSS Mastery</a>
+        <a href="#" class="nav-link-custom">JS Engine</a>
+        <a href="#" class="nav-link-custom">Git & DevOps</a>
+      </nav>
 
-      <hr style="border:none;height:1px;background:var(--glass-border);margin:16px 0;border-radius:4px;" />
 
-      <div style="font-size:13px;color:var(--muted);line-height:1.4;">Tip: This UI is responsive & uses a modern grid. Resize the window to see the layout adapt.</div>
     </aside>
 
-    <!-- MAIN -->
-    <main class="main">
-
-      <div class="topbar">
-        <div style="display:flex;align-items:center;gap:14px;flex:1;">
-          <div style="display:flex;flex-direction:column;">
-            <h1 class="app-title glow-title">Hello... Students</h1>
-            <div class="app-sub">This content is only to make you guys understand about WEB TECHNOLOGY........</div>
-          </div>
-
-          <div style="width:16px;"></div>
-
-          <!-- search -->
-          <div class="search shadow-sm ms-3" role="search" aria-label="Search videos">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" style="opacity:0.9">
-              <path d="M11.742 10.344a6.5 6.5 0 10-1.397 1.398h-.001l3.85 3.85a1 1 0 001.415-1.414l-3.85-3.85zm-5.242 1.156a5 5 0 110-10 5 5 0 010 10z"/>
-            </svg>
-            <input id="search" placeholder="Search videos, topics, or paste YouTube link..." aria-label="Search input">
-            <button class="btn-ghost" id="btnSearch">Search</button>
-          </div>
+    <main class="main-content">
+      <header class="header-area">
+        <div>
+          <h2 class="fw-800 m-0" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">GAGAN's WEBTECH</h2>
         </div>
 
-        <div class="top-actions">
-          <div class="toggle" id="themeToggle" title="Toggle light / dark">
-            <div style="font-size:13px;color:var(--muted)">Theme</div>
-            <div class="dot-toggle" id="dotToggle"><div class="knob"></div></div>
-          </div>
+        <div class="d-flex gap-3 align-items-center">
+          <div class="theme-toggle" id="themeBtn">🌓</div>
         </div>
-      </div>
+      </header>
 
-      <hr style="border:none;height:1px;background:var(--glass-border);margin:6px 0 18px 0;border-radius:4px;" />
-
-      <!-- video grid -->
-      <section class="video-grid" aria-label="Video list">
-
-        <!-- Card template: KEEP CONTENT IDENTICAL TO ORIGINAL -->
-         <!-- HTML -->
-        <article class="card-video">
-          <div class="iframe-wrap">
-            <iframe src="https://www.youtube.com/embed/HD13eq_Pmp8?si=m-wLFu4y9TZawh1v" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-          </div>
-          <div class="card-body">
-            <div class="video-meta">
-              <div class="thumb">HTML</div>
-              <div>
-                <div class="video-title">LEARN EVERYTHING ABOUT HTML</div>
-                <div class="video-desc">BASIC LEARNING VIDEOS WEB TECHNOLOGY — HTML tutorial</div>
-              </div>
-            </div>
-
-            <div style="margin-top:auto;display:flex;gap:10px;">
-              <a class="btn-original" href="https://youtu.be/HD13eq_Pmp8?si=QQ3uduCtJfH1_-MO" target="_blank" rel="noopener">LETS GO TO YOUTUBE DIRECTLY AND WATCH</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- CSS -->
-        <article class="card-video">
-          <div class="iframe-wrap">
-            <iframe src="https://www.youtube.com/embed/wRNinF7YQqQ?si=4ByUiVDG2HhJ2Tcg" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-          </div>
-          <div class="card-body">
-            <div class="video-meta">
-              <div class="thumb">CSS</div>
-              <div>
-                <div class="video-title">LEARN EVERYTHING ABOUT CSS</div>
-                <div class="video-desc">BASIC LEARNING VIDEOS WEB TECHNOLOGY — CSS tutorial</div>
-              </div>
-            </div>
-            <div style="margin-top:auto;display:flex;gap:10px;">
-              <a class="btn-original" href="https://youtu.be/wRNinF7YQqQ?si=Y44nnBM6xf02Fnww" target="_blank" rel="noopener">LETS GO TO YOUTUBE DIRECTLY AND WATCH</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- JavaScript -->
-        <article class="card-video">
-          <div class="iframe-wrap">
-            <iframe src="https://www.youtube.com/embed/lfmg-EJ8gm4?si=vd_D87tcqzi6F7yq" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-          </div>
-          <div class="card-body">
-            <div class="video-meta">
-              <div class="thumb">JS</div>
-              <div>
-                <div class="video-title">LEARN EVERYTHING ABOUT JAVASCRIPT</div>
-                <div class="video-desc">BASIC LEARNING VIDEOS WEB TECHNOLOGY — JavaScript tutorial</div>
-              </div>
-            </div>
-            <div style="margin-top:auto;display:flex;gap:10px;">
-              <a class="btn-original" href="https://youtu.be/lfmg-EJ8gm4?si=fIX2REjMk6oFv34a" target="_blank" rel="noopener">LETS GO TO YOUTUBE DIRECTLY AND WATCH</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Bootstrap -->
-        <article class="card-video">
-          <div class="iframe-wrap">
-            <iframe src="https://www.youtube.com/embed/DUiYVJIVNcA?si=fb6VMLx6ewSigFp7" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-          </div>
-          <div class="card-body">
-            <div class="video-meta">
-              <div class="thumb">BS</div>
-              <div>
-                <div class="video-title">LEARN EVERYTHING ABOUT BOOTSTRAP</div>
-                <div class="video-desc">BASIC LEARNING VIDEOS WEB TECHNOLOGY — Bootstrap tutorial</div>
-              </div>
-            </div>
-            <div style="margin-top:auto;display:flex;gap:10px;">
-              <a class="btn-original" href="https://youtu.be/DUiYVJIVNcA?si=zRuJM1FhHCnmu228" target="_blank" rel="noopener">LETS GO TO YOUTUBE DIRECTLY AND WATCH</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- jQuery -->
-        <article class="card-video">
-          <div class="iframe-wrap">
-            <iframe src="https://www.youtube.com/embed/YFlx1C8XwR0?si=vsWEE891m3sUqYzB" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-          </div>
-          <div class="card-body">
-            <div class="video-meta">
-              <div class="thumb">JQ</div>
-              <div>
-                <div class="video-title">LEARN EVERYTHING ABOUT J QUERY</div>
-                <div class="video-desc">BASIC LEARNING VIDEOS WEB TECHNOLOGY — jQuery tutorial</div>
-              </div>
-            </div>
-            <div style="margin-top:auto;display:flex;gap:10px;">
-              <a class="btn-original" href="https://youtu.be/YFlx1C8XwR0?si=2C9n5SMjKPyLeKwj" target="_blank" rel="noopener">LETS GO TO YOUTUBE DIRECTLY AND WATCH</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Git & GitHub -->
-        <article class="card-video">
-          <div class="iframe-wrap">
-            <iframe src="https://www.youtube.com/embed/uwyP5SNlQAU?si=35WxNAxe6ZRmiPKB" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-          </div>
-          <div class="card-body">
-            <div class="video-meta">
-              <div class="thumb">GIT</div>
-              <div>
-                <div class="video-title">LEARN EVERYTHING ABOUT GIT & GITHUB</div>
-                <div class="video-desc">BASIC LEARNING VIDEOS WEB TECHNOLOGY — Git tutorial</div>
-              </div>
-            </div>
-            <div style="margin-top:auto;display:flex;gap:10px;">
-              <a class="btn-original" href="https://youtu.be/uwyP5SNlQAU?si=35WxNAxe6ZRmiPKB" target="_blank" rel="noopener">LETS GO TO YOUTUBE DIRECTLY AND WATCH</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Power BI -->
-        <article class="card-video">
-          <div class="iframe-wrap">
-            <iframe src="https://www.youtube.com/embed/e6QD8lP-m6E?si=7rqK6Rbqojx0DNA0" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-          </div>
-          <div class="card-body">
-            <div class="video-meta">
-              <div class="thumb">BI</div>
-              <div>
-                <div class="video-title">LEARN EVERYTHING ABOUT POWER-BI</div>
-                <div class="video-desc">BASIC LEARNING VIDEOS WEB TECHNOLOGY — Power BI tutorial</div>
-              </div>
-            </div>
-            <div style="margin-top:auto;display:flex;gap:10px;">
-              <a class="btn-original" href="https://www.youtube.com/watch?v=e6QD8lP-m6E" target="_blank" rel="noopener">LETS GO TO YOUTUBE DIRECTLY AND WATCH</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Redhat Linux -->
-        <article class="card-video">
-          <div class="iframe-wrap">
-            <iframe src="https://www.youtube.com/embed/Byx4sgLR88E?si=gBbqsn6FiLOdklSl" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-          </div>
-          <div class="card-body">
-            <div class="video-meta">
-              <div class="thumb">RHEL</div>
-              <div>
-                <div class="video-title">LEARN EVERYTHING ABOUT REDHAT ENTERPRISES LINUX</div>
-                <div class="video-desc">BASIC LEARNING VIDEOS WEB TECHNOLOGY — Redhat Linux tutorial</div>
-              </div>
-            </div>
-            <div style="margin-top:auto;display:flex;gap:10px;">
-              <a class="btn-original" href="https://www.youtube.com/watch?v=Byx4sgLR88E" target="_blank" rel="noopener">LETS GO TO YOUTUBE DIRECTLY AND WATCH</a>
-            </div>
-          </div>
-        </article>
-
-      </section>
-
+      <div class="video-grid" id="mainGrid">
+        </div>
     </main>
-
   </div>
 
-  <!-- Bootstrap bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- General scripts -->
   <script>
-    // Theme toggle (persist in localStorage)
-    const root = document.documentElement;
-    const dotToggle = document.getElementById('dotToggle');
-    const themeToggle = document.getElementById('themeToggle');
+    // Data Array (Keeping your content identical)
+    const videos = [
+      { id: "HD13eq_Pmp8", tag: "HTML", title: "LEARN EVERYTHING ABOUT HTML", desc: "Complete foundation of web structures." },
+      { id: "wRNinF7YQqQ", tag: "CSS", title: "LEARN EVERYTHING ABOUT CSS", desc: "Design systems and layout engines." },
+      { id: "lfmg-EJ8gm4", tag: "JS", title: "LEARN EVERYTHING ABOUT JAVASCRIPT", desc: "Logic, Async, and modern ES6+." },
+      { id: "DUiYVJIVNcA", tag: "BS", title: "LEARN EVERYTHING ABOUT BOOTSTRAP", desc: "Responsive utility-first frameworks." },
+      { id: "YFlx1C8XwR0", tag: "JQ", title: "LEARN EVERYTHING ABOUT JQUERY", desc: "Legacy DOM manipulation & plugins." },
+      { id: "uwyP5SNlQAU", tag: "GIT", title: "GIT & GITHUB MASTERY", desc: "Version control and team collaboration." }
+    ];
 
-    // initialize theme
-    const stored = localStorage.getItem('gagan_theme') || 'dark';
-    if(stored === 'light'){
-      root.classList.add('light');
-      dotToggle.classList.add('active');
-    }
+    const grid = document.getElementById('mainGrid');
 
-    themeToggle.addEventListener('click', ()=> {
-      const isLight = root.classList.toggle('light');
-      dotToggle.classList.toggle('active');
-      localStorage.setItem('gagan_theme', isLight ? 'light' : 'dark');
-    });
-
-    // Simple search that highlights titles (client-only)
-    document.getElementById('btnSearch').addEventListener('click', ()=> {
-      const q = document.getElementById('search').value.trim().toLowerCase();
-      if(!q) { // flash
-        document.getElementById('search').style.transform = 'translateX(0)';
-        return;
-      }
-      const cards = document.querySelectorAll('.card-video');
-      let found = 0;
-      cards.forEach(card => {
-        const title = card.querySelector('.video-title').textContent.toLowerCase();
-        if(title.includes(q) || q.length > 3 && card.innerText.toLowerCase().includes(q)) {
-          card.style.display = '';
-          found++;
-        } else {
-          card.style.display = 'none';
-        }
+    // Rendering Logic
+    videos.forEach(v => {
+      const card = document.createElement('div');
+      card.className = 'video-card';
+      card.innerHTML = `
+        <div class="iframe-container">
+          <iframe width="100%" height="100%" src="https://www.youtube.com/embed/${v.id}" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="card-content">
+          <span class="badge-tech">${v.tag}</span>
+          <div class="video-title-text">${v.title}</div>
+          <p class="small text-muted mb-3">${v.desc}</p>
+          <a href="https://youtu.be/${v.id}" target="_blank" class="btn-watch">Watch on YouTube</a>
+        </div>
+      `;
+      
+      // Mouse tracking effect for realism
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--x', `${x}px`);
+        card.style.setProperty('--y', `${y}px`);
       });
 
-      if(found === 0) {
-        alert('No matching videos found for: ' + q);
-      }
+      grid.appendChild(card);
     });
 
-    // Make sure iframes are lazy-loaded for performance (modern browsers)
-    document.querySelectorAll('iframe').forEach((f,idx)=>{
-      f.setAttribute('loading','lazy');
+    // Theme Toggle
+    document.getElementById('themeBtn').addEventListener('click', () => {
+      document.body.classList.toggle('light');
     });
-
-    // Accessibility: keyboard search (enter)
-    document.getElementById('search').addEventListener('keydown', (e)=>{
-      if(e.key === 'Enter') document.getElementById('btnSearch').click();
-    });
-
   </script>
-
-
-<!-- #Adding new video cards dynamically -->
-  <script>
-
-  function addVideoCard(iframeLink, anchorLink, thumbText, titleText, descText) {
-
-    // Create the article wrapper
-    const card = document.createElement("article");
-    card.className = "card-video";
-
-    card.innerHTML = `
-      <div class="iframe-wrap">
-        <iframe src="${iframeLink}" title="Dynamic YouTube Video" 
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
-      </div>
-
-      <div class="card-body">
-        <div class="video-meta">
-          <div class="thumb">${thumbText}</div>
-          <div>
-            <div class="video-title">${titleText}</div>
-            <div class="video-desc">${descText}</div>
-          </div>
-        </div>
-
-        <div style="margin-top:auto;display:flex;gap:10px;">
-          <a class="btn-original" href="${anchorLink}" target="_blank" rel="noopener">
-            LETS GO TO YOUTUBE DIRECTLY AND WATCH
-          </a>
-        </div>
-      </div>
-    `;
-
-    // Append inside the video grid
-    document.querySelector(".video-grid").appendChild(card);
-  }
-
-</script>
-
 </body>
 </html>
